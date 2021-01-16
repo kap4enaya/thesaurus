@@ -1,0 +1,34 @@
+﻿using System.Collections.Generic;
+using System.Threading.Tasks;
+
+namespace Theasurus.Core
+{
+	public interface ITheasurus
+	{
+		/// <summary>
+		/// Adds synonyms to the specified word. 
+		/// If the word doesn't yet exist in the dictionary, it will be added. 
+		/// If the word already exists in the dictionary, new synonyms will be appended to the list of existing synonyms.
+		/// </summary>
+		Task AddSynonymsAsync(string word, IEnumerable<string> synonyms);
+		/// <summary>
+		/// Returns all the synonyms of the existing word. Case insensitive.
+		/// If the word doesn't exist, <see cref="System.ArgumentException" will be thrown/>
+		/// </summary>
+		Task<IEnumerable<string>> GetSynonymsAsync(string word);
+		/// <summary>
+		/// Returns one page of words from the dictionary.
+		/// </summary>
+		/// <param name="take">Indicates how many elements should one page contain.</param>
+		/// <param name="skip">Indicates how many contiguous elements from the beginning of the sequence should be skipped.</param>
+		Task<SearchResult> GetWordsAsync(uint take, ulong skip);
+		/// <summary>
+		/// Returns one page of words matching the specified search pattern.
+		/// </summary>
+		/// <param name="take">Indicates how many elements should one page contain.</param>
+		/// <param name="skip">Indicates how many contiguous elements from the beginning of the sequence should be skipped.</param>
+		Task<SearchResult> GetWordsAsync(string searchPattern, uint take, ulong skip);
+	}
+
+	public record SearchResult(IEnumerable<string> Words, long TotalResults, long? NextSkip);
+}
