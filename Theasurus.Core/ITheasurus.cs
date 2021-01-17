@@ -21,13 +21,7 @@ namespace Theasurus.Core
 		/// </summary>
 		/// <param name="take">Indicates how many elements should one page contain.</param>
 		/// <param name="skip">Indicates how many contiguous elements from the beginning of the sequence should be skipped.</param>
-		Task<SearchResult> GetWordsAsync(uint take, ulong skip);
-		/// <summary>
-		/// Returns one page of words matching the specified search pattern.
-		/// </summary>
-		/// <param name="take">Indicates how many elements should one page contain.</param>
-		/// <param name="skip">Indicates how many contiguous elements from the beginning of the sequence should be skipped.</param>
-		Task<SearchResult> GetWordsAsync(string searchPattern, uint take, ulong skip);
+		Task<SearchResult> GetWordsAsync(uint take, uint skip);
 	}
 
 	public record SearchResult(IEnumerable<string> Words, long TotalResults, long? NextSkip);
