@@ -24,5 +24,5 @@ namespace Theasurus.Core
 		Task<SearchResult> GetWordsAsync(uint take, uint skip);
 	}
 
-	public record SearchResult(IEnumerable<string> Words, long TotalResults, long? NextSkip);
+	public record SearchResult(IEnumerable<string> Words, int TotalResults, uint? NextSkip);
 }
