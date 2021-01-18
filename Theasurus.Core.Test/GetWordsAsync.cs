@@ -3,13 +3,13 @@ using System.Threading.Tasks;
 
 namespace Theasurus.Core.Test
 {
-	public class GetWordsAsync: TheasurusTestBase
+	public class GetWordsAsync: TheasurusServiceTestBase
 	{
 		[Test]
 		public async Task WithTakeMoreThanTotal_ReturnsEverything()
 		{
 			using var context = new TheasurusDbContext(ContextOptions);
-			var theasurus = new Theasurus(context);
+			var theasurus = new TheasurusService(context);
 
 			var result = await theasurus.GetWordsAsync(10, 0);
 			CollectionAssert.AreEquivalent(new[] { "anger", "rage", "irritation" }, result.Words);
@@ -21,7 +21,7 @@ namespace Theasurus.Core.Test
 		public async Task WithTakeLessThanTotal_ReturnsFirstPage()
 		{
 			using var context = new TheasurusDbContext(ContextOptions);
-			var theasurus = new Theasurus(context);
+			var theasurus = new TheasurusService(context);
 
 			var result = await theasurus.GetWordsAsync(2, 0);
 			CollectionAssert.AreEquivalent(new[] { "anger", "rage" }, result.Words);
@@ -33,7 +33,7 @@ namespace Theasurus.Core.Test
 		public async Task SkipFirstPage_ReturnsSecondPage()
 		{
 			using var context = new TheasurusDbContext(ContextOptions);
-			var theasurus = new Theasurus(context);
+			var theasurus = new TheasurusService(context);
 
 			var result = await theasurus.GetWordsAsync(2, 2);
 			CollectionAssert.AreEquivalent(new[] { "irritation" }, result.Words);
@@ -45,7 +45,7 @@ namespace Theasurus.Core.Test
 		public async Task TakeExactlyAll_ReturnsEverything()
 		{
 			using var context = new TheasurusDbContext(ContextOptions);
-			var theasurus = new Theasurus(context);
+			var theasurus = new TheasurusService(context);
 
 			var result = await theasurus.GetWordsAsync(3, 0);
 			CollectionAssert.AreEquivalent(new[] { "anger", "rage", "irritation" }, result.Words);
@@ -57,7 +57,7 @@ namespace Theasurus.Core.Test
 		public async Task WithSkipMoreThanTotal_ReturnsNothing()
 		{
 			using var context = new TheasurusDbContext(ContextOptions);
-			var theasurus = new Theasurus(context);
+			var theasurus = new TheasurusService(context);
 
 			var result = await theasurus.GetWordsAsync(3, 10);
 			CollectionAssert.AreEquivalent(new string[] { }, result.Words);
@@ -69,7 +69,7 @@ namespace Theasurus.Core.Test
 		public async Task WithTakeZero_ReturnsNothing()
 		{
 			using var context = new TheasurusDbContext(ContextOptions);
-			var theasurus = new Theasurus(context);
+			var theasurus = new TheasurusService(context);
 
 			var result = await theasurus.GetWordsAsync(0, 0);
 			CollectionAssert.AreEquivalent(new string[] { }, result.Words);

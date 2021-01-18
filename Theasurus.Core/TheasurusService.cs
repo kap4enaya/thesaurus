@@ -7,11 +7,11 @@ using System.Threading.Tasks;
 
 namespace Theasurus.Core
 {
-	public class Theasurus : ITheasurus
+	public class TheasurusService : ITheasurusService
 	{
 		private TheasurusDbContext _dbContext;
 
-		public Theasurus(TheasurusDbContext dbContext)
+		public TheasurusService(TheasurusDbContext dbContext)
 		{
 			_dbContext = dbContext;
 		}

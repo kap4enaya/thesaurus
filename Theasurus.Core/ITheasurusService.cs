@@ -3,7 +3,7 @@ using System.Threading.Tasks;
 
 namespace Theasurus.Core
 {
-	public interface ITheasurus
+	public interface ITheasurusService
 	{
 		/// <summary>
 		/// Adds a word to the dictionary if it wasn't already present.

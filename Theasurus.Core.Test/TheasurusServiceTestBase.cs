@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 namespace Theasurus.Core.Test
 {
 	[TestFixture]
-	public class TheasurusTestBase
+	public class TheasurusServiceTestBase
 	{
 		protected DbContextOptions<TheasurusDbContext> ContextOptions { get; private set; }
 
