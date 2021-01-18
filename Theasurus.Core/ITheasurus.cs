@@ -6,11 +6,15 @@ namespace Theasurus.Core
 	public interface ITheasurus
 	{
 		/// <summary>
+		/// Adds a word to the dictionary if it wasn't already present.
+		/// </summary>
+		Task AddAsync(string word);
+		/// <summary>
 		/// Adds synonyms to the specified word. 
 		/// If the word doesn't yet exist in the dictionary, it will be added. 
 		/// If the word already exists in the dictionary, new synonyms will be appended to the list of existing synonyms.
 		/// </summary>
-		Task AddSynonymsAsync(string word, IEnumerable<string> synonyms);
+		Task AddAsync(string word, IEnumerable<string> synonyms);
 		/// <summary>
 		/// Returns all the synonyms of the existing word. Case insensitive.
 		/// If the word doesn't exist, <see cref="System.ArgumentException" will be thrown/>

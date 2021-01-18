@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Theasurus.Core
 {
-	public class Theasurus: ITheasurus
+	public class Theasurus : ITheasurus
 	{
 		private TheasurusDbContext _dbContext;
 
@@ -17,31 +17,30 @@ namespace Theasurus.Core
 		}
 
 		/// <inheritdoc/>
-		public async Task AddSynonymsAsync(string word, IEnumerable<string> synonyms)
+		public Task AddAsync(string word)
 		{
 			ValidateWord(word);
+			return AddInternal(word, null);
+		}
 
-			var wordId = (await GetWordOrCreate(word.Trim().ToLower())).Id;
-			var existingSynonyms = await GetSynonymsInternal(wordId);
-
-			foreach (var synonym in synonyms ?? throw new ArgumentNullException(nameof(synonyms)))
+		/// <inheritdoc/>
+		public Task AddAsync(string word, IEnumerable<string> synonyms)
+		{
+			ValidateWord(word);
+			var cleanedSynonyms = synonyms?.Select(x =>
 			{
-				ValidateWord(synonym);
+				ValidateWord(x);
+				return x.Trim().ToLower();
+			}) ?? throw new ArgumentNullException(nameof(synonyms));
 
-				if (existingSynonyms.Any(x => x.Text == synonym))
-					continue;//TODO: consider logging it
-
-				var synonymId = (await GetWordOrCreate(synonym.Trim().ToLower())).Id;
-				await _dbContext.AddAsync(new WordSynonym(wordId, synonymId));
-			}
-			await _dbContext.SaveChangesAsync();
+			return AddInternal(word, cleanedSynonyms);
 		}
 
 		/// <inheritdoc/>
 		public async Task<IEnumerable<string>> GetSynonymsAsync(string word)
 		{
 			ValidateWord(word);
-			
+
 			var existingWord = await GetWordOrNull(word.Trim().ToLower());
 			if (existingWord == null)
 			{
@@ -61,6 +60,25 @@ namespace Theasurus.Core
 			return new SearchResult(result.Select(x => x.Text), total, next < total ? next : null);
 		}
 
+		private async Task AddInternal(string word, IEnumerable<string>? synonyms)
+		{
+			var wordId = (await GetWordOrCreate(word.Trim().ToLower())).Id;
+			var existingSynonyms = await GetSynonymsInternal(wordId);
+
+			if (synonyms == null)
+				return;
+
+			foreach (var synonym in synonyms)
+			{
+				if (existingSynonyms.Any(x => x.Text == synonym))
+					continue;//TODO: consider logging it
+
+				var synonymId = (await GetWordOrCreate(synonym.Trim().ToLower())).Id;
+				await _dbContext.AddAsync(new WordSynonym(wordId, synonymId));
+			}
+			await _dbContext.SaveChangesAsync();
+		}
+
 		private async Task<IEnumerable<Word>> GetSynonymsInternal(int wordId)
 		{
 			var synonymIds = await _dbContext.SynonymMapping.Where(x => x.WordId == wordId).Select(x => x.SynonymId).ToListAsync();
@@ -75,7 +93,7 @@ namespace Theasurus.Core
 		private async Task<Word> GetWordOrCreate(string text)
 		{
 			var word = await GetWordOrNull(text);
-			if(word == null)
+			if (word == null)
 			{
 				var wordAdded = await _dbContext.AddAsync(new Word(text));
 				_dbContext.SaveChanges();//we have to save the changes in order to let the DB generate the Id for us
