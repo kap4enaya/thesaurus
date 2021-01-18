@@ -22,9 +22,14 @@ namespace Theasurus.Core
 			ValidateWord(word);
 
 			var wordId = (await GetWordOrCreate(word.Trim().ToLower())).Id;
+			var existingSynonyms = await GetSynonymsInternal(wordId);
+
 			foreach (var synonym in synonyms ?? throw new ArgumentNullException(nameof(synonyms)))
 			{
 				ValidateWord(synonym);
+
+				if (existingSynonyms.Any(x => x.Text == synonym))
+					continue;//TODO: consider logging it
 
 				var synonymId = (await GetWordOrCreate(synonym.Trim().ToLower())).Id;
 				await _dbContext.AddAsync(new WordSynonym(wordId, synonymId));
@@ -43,8 +48,7 @@ namespace Theasurus.Core
 				throw new ArgumentException($"Word {word} is not present in the dictionary");
 			}
 
-			var synonymIds = await _dbContext.SynonymMapping.Where(x => x.WordId == existingWord.Id).Select(x => x.SynonymId).ToListAsync();
-			return await _dbContext.Words.Where(x => synonymIds.Contains(x.Id)).Select(x => x.Text).ToListAsync();
+			return (await GetSynonymsInternal(existingWord.Id)).Select(x => x.Text);
 		}
 
 		/// <inheritdoc/>
@@ -55,6 +59,12 @@ namespace Theasurus.Core
 			var next = skip + take;
 
 			return new SearchResult(result.Select(x => x.Text), total, next < total ? next : null);
+		}
+
+		private async Task<IEnumerable<Word>> GetSynonymsInternal(int wordId)
+		{
+			var synonymIds = await _dbContext.SynonymMapping.Where(x => x.WordId == wordId).Select(x => x.SynonymId).ToListAsync();
+			return await _dbContext.Words.Where(x => synonymIds.Contains(x.Id)).ToListAsync();
 		}
 
 		private Task<Word> GetWordOrNull(string text)
