@@ -1,0 +1,8 @@
+{
+  "profiles": {
+    "Theasurus.App": {
+      "commandName": "Project",
+      "commandLineArgs": "help"
+    }
+  }
+}

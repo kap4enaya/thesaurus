@@ -5,7 +5,9 @@ VisualStudioVersion = 16.0.30907.101
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Theasurus.Core", "Theasurus.Core\Theasurus.Core.csproj", "{23AA5E52-04A3-45B8-8C37-33C574CFEF36}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Theasurus.Core.IntegrationTests", "Theasurus.Core.IntegrationTests\Theasurus.Core.IntegrationTests.csproj", "{C30A4F1A-4FB4-4B2C-ACA7-E51162C2BE42}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Theasurus.Core.IntegrationTests", "Theasurus.Core.IntegrationTests\Theasurus.Core.IntegrationTests.csproj", "{C30A4F1A-4FB4-4B2C-ACA7-E51162C2BE42}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Theasurus.App", "Theasurus.App\Theasurus.App.csproj", "{F21ABA8C-D1D8-4B17-BBEB-2E6891CAD54B}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -21,6 +23,10 @@ Global
 		{C30A4F1A-4FB4-4B2C-ACA7-E51162C2BE42}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C30A4F1A-4FB4-4B2C-ACA7-E51162C2BE42}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C30A4F1A-4FB4-4B2C-ACA7-E51162C2BE42}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F21ABA8C-D1D8-4B17-BBEB-2E6891CAD54B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F21ABA8C-D1D8-4B17-BBEB-2E6891CAD54B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F21ABA8C-D1D8-4B17-BBEB-2E6891CAD54B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F21ABA8C-D1D8-4B17-BBEB-2E6891CAD54B}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
