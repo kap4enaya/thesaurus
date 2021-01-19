@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace Theasurus.App.Options
 {
-	[Verb("add")]
+	[Verb("add", HelpText = "Add a new word and/or synonyms.")]
 	public class AddOptions
 	{
 		[Option('w',"word", Required = true, HelpText = "A word to be added to the dictionary")]

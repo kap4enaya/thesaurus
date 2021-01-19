@@ -1,13 +1,8 @@
 ﻿using CommandLine;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Theasurus.App.Options
 {
-	[Verb("synonyms")]
+	[Verb("synonyms", HelpText = "Display the list of synonyms for a word.")]
 	public class SynonymsOptions
 	{
 		[Option('w', "word", Required = true, HelpText = "A word for which you'd want to see the synonyms")]

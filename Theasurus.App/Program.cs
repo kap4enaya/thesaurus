@@ -33,7 +33,7 @@ namespace Theasurus.App
 
 		private static async Task ShowSynonyms(SynonymsOptions options, ITheasurusService service)
 		{
-			Console.WriteLine($"Synonyms of the word \"{options.Word}\"");
+			Console.WriteLine($"Synonyms of the word \"{options.Word}\":");
 			foreach (var synonym in await service.GetSynonymsAsync(options.Word))
 			{
 				Console.WriteLine(synonym);

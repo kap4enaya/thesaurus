@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Theasurus.App.Options
 {
-	[Verb("words")]
+	[Verb("words", HelpText = "Display the list of words present in the dictionary.")]
 	public class WordsOptions
 	{
 		[Option('p',"page-size", Default = (uint)10, HelpText = "How many words per page should be displayed")]
